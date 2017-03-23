@@ -25,6 +25,12 @@ use yii\helpers\Json;
 class Map extends Widget
 {
     /**
+    * @var dosamigos\leaflet\types\LatLngBounds North East and South West components
+    * @author markebjones
+    */
+    public $bounds;
+
+    /**
      * @var \dosamigos\leaflet\LeafLet component holding all configuration
      */
     public $leafLet;
@@ -110,6 +116,13 @@ class Map extends Widget
         }
 
         $js[] = "$name.setView({$lateInitClientOptions['center']}, {$lateInitClientOptions['zoom']});";
+
+        if(isset($this->bounds)){
+          $ne = $this->bounds->getNorthEast();
+          $sw = $this->bounds->getSouthWest();
+
+          $js[] = "$name.fitBounds([" . $ne->lat . ',' . $ne->lng . "],[" . $sw->lat . ',' . $sw->lng . "], {animate: false});";
+        }
 
         $view->registerJs("function {$name}_init(){\n" . implode("\n", $js) . "}\n{$name}_init();");
     }
