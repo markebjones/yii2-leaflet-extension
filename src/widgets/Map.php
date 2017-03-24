@@ -118,10 +118,10 @@ class Map extends Widget
         $js[] = "$name.setView({$lateInitClientOptions['center']}, {$lateInitClientOptions['zoom']});";
 
         if(isset($this->bounds)){
-          $ne = $this->bounds->getNorthEast();
-          $sw = $this->bounds->getSouthWest();
+            $ne = $this->bounds->getNorthEast();
+            $sw = $this->bounds->getSouthWest();
 
-          $js[] = "$name.fitBounds([" . $ne->lat . ',' . $ne->lng . "],[" . $sw->lat . ',' . $sw->lng . "], {animate: false});";
+            $js[] = "$name.fitBounds([[" . $ne->lat . ',' . $ne->lng . "],[" . $sw->lat . ',' . $sw->lng . "]], {animate: false});";
         }
 
         $view->registerJs("function {$name}_init(){\n" . implode("\n", $js) . "}\n{$name}_init();");
